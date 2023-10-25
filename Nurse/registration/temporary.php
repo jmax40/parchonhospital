@@ -4,6 +4,7 @@
 <head>
   <title>Nurse Management</title>
 
+  <link rel="shortcut icon" href="../img/spa.ico" type="image/x-icon">
 
 
 
@@ -83,6 +84,43 @@
 
 /* Add overlay form */
 
+
+.overlay1 {
+  display: none; /* Add this line to hide the overlay by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  text-align: center;
+}
+
+.form-container1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px; /* Adjust padding as needed */
+  width: 30%; /* Increase the width as needed */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 .overlay {
   display: none;
   position: fixed;
@@ -101,14 +139,19 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 20px; /* Adjust padding as needed */
+  width: 30%; /* Increase the width as needed */
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .my-form {
   /* Form styles */
 }
+
+
+
+
 
 .close-button {
   margin-top: 10px;
@@ -132,10 +175,6 @@
 
 /* Form registration styles */
 
-.my-form {
-  max-height: 600px; /* Adjust the height as needed */
-  overflow-y: auto;
-}
 
 .my-form h2 {
   text-align: center;
@@ -223,7 +262,7 @@
     background-color: red;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -233,7 +272,7 @@
     background-color: green;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 5px 15px;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -383,17 +422,18 @@
 
     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
-      <li class="active-menu"><a href="index_in.php">Medical Records</a></li>
-      <li><a href="../login.php">Log out</a></li>
+    <li><a href="about.html"><i class="fas fa-notes-medical"></i> Medical Records</a></li>
+  <li><a href="../login.php"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
     </ul>
   </div>
 </nav>
 
 <ul class="sidenav" id="mobile-demo">
-  <li><a href="about.html">Medical Records</a></li>
-      <li><a href="../login.php">Log out</a></li>
+  <li><a href="about.html"><i class="fas fa-notes-medical"></i> Medical Records</a></li>
+  <li><a href="../login.php"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
 </ul>
--->
+Navbar Start -->
+
 <br>
 <br>
 
@@ -424,7 +464,7 @@
         <thead style="background-color: #bbdefb;">
             <tr>
                <th>Date</th>
-                <th>Medical record No:</th>
+                <th>M.R No:</th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Gender</th>
@@ -459,19 +499,20 @@
                     <td><?= $row['religion'] ?></td>
                     <td><?= $row['contact_no'] ?></td>
                     
-
                     <td>
-                    <button class="red-button delete-record" data-record-id="<?= $row['id'] ?>">
+  <button class="red-button delete-record" onclick="confirmDelete(<?php echo $row['id']; ?>)">
     <i class="fas fa-trash"></i> Delete
-</button>
+  </button>
 </td>
-
 
 <td>
-    <button class="green-button" onclick="viewHistory(<?= $row['id'] ?>)">
-        <i class="fas fa-edit"></i> Update
-    </button>
+<button class="green-button" onclick="openForm1(<?= $row['id'] ?>, '<?= $row['record_no'] ?>', '<?= $row['name'] ?>', '<?= $row['age'] ?>', '<?= $row['address'] ?>', '<?= $row['sex'] ?>', '<?= $row['status'] ?>', '<?= $row['birthplace'] ?>', '<?= $row['occupation'] ?>', '<?= $row['birthday'] ?>', '<?= $row['religion'] ?>', '<?= $row['contact_no'] ?>', '<?= $row['date'] ?>')">
+    <i class="fas fa-edit"></i> Update
+</button>
+
 </td>
+
+
 
        
       
@@ -517,11 +558,11 @@
   <label>Gender:</label>
   <div class="radio-buttons">
     <label>
-      <input type="radio" name="sex" value="male" required>
+      <input type="radio" name="sex" value="Male" required>
       <span>Male</span>
     </label>
     <label>
-      <input type="radio" name="sex" value="female" required>
+      <input type="radio" name="sex" value="Female" required>
       <span>Female</span>
     </label>
   </div>
@@ -539,15 +580,15 @@
   <label>Status:</label>
   <div class="radio-buttons1">
     <label>
-      <input type="radio" name="status" value="single" required>
+      <input type="radio" name="status" value="Single" required>
       <span>Single</span>
     </label>
     <label>
-      <input type="radio" name="status" value="merried" required>
-      <span>Merried</span>
+      <input type="radio" name="status" value="Married" required>
+      <span>Married</span>
     </label>
     <label>
-      <input type="radio" name="status" value="widow" required>
+      <input type="radio" name="status" value="Widow" required>
       <span>Widow</span>
     </label>
   </div>
@@ -601,6 +642,70 @@
 
 
 
+<div class="overlay1" id="overlay1">
+    <div class="form-container1" id="form-container1">
+        <form id="updateForm" action="process.php" method="post">
+            <div class="form-row">
+                <label for="field1"></label>
+                <input type="hidden" id="field1" name="id">
+            </div>
+            <div class="form-row">
+                <label for="field2">M.R. No:</label>
+                <input type="text" id="field2" name="record_no">
+            </div>
+            <div class="form-row">
+                <label for="field3">Name:</label>
+                <input type ="text" id="field3" name="name">
+            </div>
+            <div class="form-row">
+                <label for="field4">Age:</label>
+                <input type="text" id="field4" name="age">
+            </div>
+            <div class="form-row">
+                <label for="field5">Address:</label>
+                <input type="text" id="field5" name="address">
+            </div>
+            <div class="form-row">
+                <label for="field6">Gender:</label>
+                <input type="text" id="field6" name="gender">
+            </div>
+            <div class="form-row">
+                <label for="field7">Status:</label>
+                <input type="text" id="field7" name="status">
+            </div>
+            <div class="form-row">
+                <label for="field8">Birthplace:</label>
+                <input type="text" id="field8" name="birthplace">
+            </div>
+            <div class="form-row">
+                <label for="field9">Occupation:</label>
+                <input type="text" id="field9" name="occupation">
+            </div>
+            <div class="form-row">
+                <label for="field10">Birthday:</label>
+                <input type="text" id="field10" name="birthday">
+            </div>
+            <div class="form-row">
+                <label for="field11">Religion:</label>
+                <input type="text" id="field11" name="religion">
+            </div>
+            <div class="form-row">
+                <label for="field12">Contact No:</label>
+                <input type="text" id="field12" name="contact_no">
+            </div>
+            <button type="submit" name="update" class="submit-button">
+    <i class="fas fa-edit"></i> Update
+</button>
+            <button class="cancel-button"type="button" onclick="closeForm()">
+             <i class="fas fa-trash"></i> Close</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
 
 
 
@@ -614,11 +719,48 @@
 
 <script>
 
+function openForm1(id, record_no, name, age, address, sex, status, birthplace, occupation, birthday, religion, contact_no, date) {
+    // Populate the form fields with the data
+    document.getElementById('field1').value = id;
+    document.getElementById('field2').value = record_no;
+    document.getElementById('field3').value = name;  // Corrected field ID
+    document.getElementById('field4').value = age;
+    document.getElementById('field5').value = address;
+    document.getElementById('field6').value = sex;
+    document.getElementById('field7').value = status;
+    document.getElementById('field8').value = birthplace;
+    document.getElementById('field9').value = occupation;
+    document.getElementById('field10').value = birthday;
+    document.getElementById('field11').value = religion;
+    document.getElementById('field12').value = contact_no;
+
+    // Show the overlay
+    document.getElementById('overlay1').style.display = 'block';
+}
+
+
+
+        function closeForm() {
+            // Hide the overlay
+            document.getElementById('overlay1').style.display = 'none';
+        }
 
 
 
 
-// Function to display the form when the button is clicked
+
+
+
+
+
+
+
+
+
+
+
+
+        // Function to display the form when the button is clicked
 document.getElementById("showFormButton").addEventListener("click", function () {
   document.getElementById("overlay").style.display = "block";
 });
@@ -628,7 +770,6 @@ document.getElementById("closeFormButton").addEventListener("click", function ()
   document.getElementById("overlay").style.display = "none";
 });
 
-// Optionally, you can add more functionality to handle form submission
 
 
 
@@ -636,13 +777,24 @@ document.getElementById("closeFormButton").addEventListener("click", function ()
 
 
 
+
+function confirmDelete(recordId) {
+  if (confirm('Are you sure you want to permanently delete this account?')) {
+    window.location.href = 'process.php?nurseDel=' + recordId;
+  }
+}
+
+
+
+        
 
 
 $(document).ready(function() {
     var table = $('#yourTableID').DataTable({
         "paging": true, // Enable pagination
         "lengthMenu": [10, 25, 50, -1], // Define the number of entries per page
-        "info": true // Show entry count information
+        "info": true, // Show entry count information
+        "order": [[0, 'desc']] // Sort the first column (Date) in descending order
     });
 
     // Hide the search input initially
