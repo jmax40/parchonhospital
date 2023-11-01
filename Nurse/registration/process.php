@@ -1,7 +1,5 @@
 <?php
-// Check if the form is submitted
 if (isset($_POST['submit'])) {
-    // Establish a database connection (update with your database credentials)
     $servername = "localhost";
     $username = "root";
     $password = "123456";
@@ -9,12 +7,10 @@ if (isset($_POST['submit'])) {
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check for connection errors
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Retrieve data from the form
     $record_no = $_POST['record_no'];
     $name = $_POST['name'];
     $age = $_POST['age'];
@@ -28,18 +24,57 @@ if (isset($_POST['submit'])) {
     $contact_no = $_POST['contact_no'];
     $date = date("m-d-Y");
 
+    $sql = "INSERT INTO nurse_medical_record (record_no, name, age, address, sex, status, birthplace, occupation, birthday, religion, contact_no, date)
+            VALUES ('$record_no', '$name', '$age', '$address', '$sex', '$status', '$birthplace', '$occupation', '$birthday', '$religion', '$contact_no', '$date')";
 
-    // Insert data into the database (adjust SQL statement according to your database structure)
-    $sql = "INSERT INTO nurse_medical_record (record_no, name, age, address,sex,status, birthplace, occupation, birthday, religion, contact_no, date)
-            VALUES ('$record_no', '$name', '$age', '$address', '$sex','$status', '$birthplace', '$occupation', '$birthday', '$religion', '$contact_no', '$date')";
 
-    if ($conn->query($sql) === true) {
-        echo "<script>alert('Successfully inserted');window.location.href='registration.php';</script>";
-    } else {
+if ($conn->query($sql) === true) {
+    // Display a pop-up overlay
+    echo '<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+    }
+
+    .popup {
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      text-align: center; /* Center-align the content inside the popup */
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="popup">
+      <img src="../img/success.gif" alt="SVG Image">
+      <p>Successfully Added</p>
+    </div>
+  </div>
+</body>
+</html>';
+    echo '<script>
+        setTimeout(function() {
+            window.location.href = "registration.php";
+        }, 3000); // Redirect to registration.php after 3 seconds
+    </script>';
+    exit; // Terminate the script execution after displaying the pop-up
+}else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
-    // Close the database connection
     $conn->close();
 }
 ?>
@@ -161,7 +196,46 @@ $dbname = "parconhospital";
         WHERE id = '$id'";
 
     if ($db->query($sql) === TRUE) {
-        echo "<script>alert('Successfully updated');window.location.href='registration.php';</script>";
+        echo '<!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            .overlay {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0, 0, 0, 0.7);
+              z-index: 999;
+            }
+        
+            .popup {
+              background: white;
+              padding: 20px;
+              border-radius: 5px;
+              box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+              text-align: center; /* Center-align the content inside the popup */
+            }
+          </style>
+        </head>
+        <body>
+          <div class="overlay">
+            <div class="popup">
+              <img src="../img/success.gif" alt="SVG Image">
+              <p>Successfully Updated</p>
+            </div>
+          </div>
+        </body>
+        </html>';
+            echo '<script>
+                setTimeout(function() {
+                    window.location.href = "registration.php";
+                }, 3000); // Redirect to registration.php after 3 seconds
+            </script>';
     } else {
         echo "Error updating record: " . $db->error;
     }

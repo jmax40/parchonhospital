@@ -120,7 +120,7 @@
 
 
 
-
+/* Add overlay form */
 .overlay {
   display: none;
   position: fixed;
@@ -131,6 +131,7 @@
   background: rgba(0, 0, 0, 0.7);
   z-index: 1;
   text-align: center;
+  overflow: auto; /* Add this property to enable scrolling */
 }
 
 .form-container {
@@ -139,11 +140,26 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
-  padding: 20px; /* Adjust padding as needed */
-  width: 30%; /* Increase the width as needed */
-  border-radius: 10px;
+  padding: 20px;
+  border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto; /* Add this property to enable scrolling inside the form container */
 }
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    width: 95vw;
+  }
+}
+
 
 .my-form {
   /* Form styles */
@@ -398,7 +414,13 @@
 /* Add media queries for responsiveness */
 
 /* You can add more media queries for other screen sizes as needed */
-
+body {
+  background-image: url('../img/registration.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+}
 
   </style>
 
@@ -407,7 +429,7 @@
 </head>
 <body>
 
-  <a href="process.php"></a>
+  <a href="temp.php"></a>
 
 <!-- 
 <nav>
@@ -422,22 +444,18 @@
 
     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
-    <li><a href="about.html"><i class="fas fa-notes-medical"></i> Medical Records</a></li>
+    <li><a href="registration.php"><i class="fas fa-notes-medical"></i> Medical Records</a></li>
   <li><a href="../login.php"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
     </ul>
   </div>
 </nav>
 
 <ul class="sidenav" id="mobile-demo">
-  <li><a href="about.html"><i class="fas fa-notes-medical"></i> Medical Records</a></li>
+  <li><a href="registration.php"><i class="fas fa-notes-medical"></i> Medical Records</a></li>
   <li><a href="../login.php"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
 </ul>
+
 Navbar Start -->
-
-<br>
-<br>
-
-
 
 <span>
   <button id="showFormButton" class="add-button" style="display: inline;">
@@ -482,7 +500,7 @@ Navbar Start -->
             </tr>
         </thead>
         <tbody>
-            <?php include 'process.php'; // Include the PHP file here ?>
+            <?php include 'temp.php'; // Include the PHP file here ?>
 
             <?php while ($row = $medical_record ->fetch_assoc()): ?>
                 <tr>
@@ -506,7 +524,19 @@ Navbar Start -->
 </td>
 
 <td>
-<button class="green-button" onclick="openForm1(<?= $row['id'] ?>, '<?= $row['record_no'] ?>', '<?= $row['name'] ?>', '<?= $row['age'] ?>', '<?= $row['address'] ?>', '<?= $row['sex'] ?>', '<?= $row['status'] ?>', '<?= $row['birthplace'] ?>', '<?= $row['occupation'] ?>', '<?= $row['birthday'] ?>', '<?= $row['religion'] ?>', '<?= $row['contact_no'] ?>', '<?= $row['date'] ?>')">
+<button class="green-button" onclick="openForm1(<?= $row['id'] ?>, 
+'<?= $row['record_no'] ?>', 
+'<?= $row['name'] ?>', 
+'<?= $row['age'] ?>', 
+'<?= $row['address'] ?>', 
+'<?= $row['sex'] ?>', 
+'<?= $row['status'] ?>', 
+'<?= $row['birthplace'] ?>', 
+'<?= $row['occupation'] ?>',
+ '<?= $row['birthday'] ?>', 
+ '<?= $row['religion'] ?>',
+  '<?= $row['contact_no'] ?>', 
+  '<?= $row['date'] ?>')">
     <i class="fas fa-edit"></i> Update
 </button>
 
@@ -533,7 +563,7 @@ Navbar Start -->
 
     <div id="overlay" class="overlay">
   <div id="formContainer" class="form-container">
-    <form id="registrationForm" class="my-form" action="process.php" method="post">
+    <form id="registrationForm" class="my-form" action="temp.php" method="post">
       <h2>
         <img src="../img/header.png" alt="Registration Image" style="max-width: 100%;">
       </h2>
@@ -644,7 +674,7 @@ Navbar Start -->
 
 <div class="overlay1" id="overlay1">
     <div class="form-container1" id="form-container1">
-        <form id="updateForm" action="process.php" method="post">
+        <form id="updateForm" action="temp.php" method="post">
             <div class="form-row">
                 <label for="field1"></label>
                 <input type="hidden" id="field1" name="id">
@@ -780,7 +810,7 @@ document.getElementById("closeFormButton").addEventListener("click", function ()
 
 function confirmDelete(recordId) {
   if (confirm('Are you sure you want to permanently delete this account?')) {
-    window.location.href = 'process.php?nurseDel=' + recordId;
+    window.location.href = 'temp.php?nurseDel=' + recordId;
   }
 }
 

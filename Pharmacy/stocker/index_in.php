@@ -82,7 +82,6 @@
 
 
 /* Add overlay form */
-
 .overlay {
   display: none;
   position: fixed;
@@ -93,6 +92,7 @@
   background: rgba(0, 0, 0, 0.7);
   z-index: 1;
   text-align: center;
+  overflow: auto; /* Add this property to enable scrolling */
 }
 
 .form-container {
@@ -104,7 +104,24 @@
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto; /* Add this property to enable scrolling inside the form container */
 }
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 90vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    width: 95vw;
+  }
+}
+
+
 
 .my-form {
   /* Form styles */
@@ -132,10 +149,7 @@
 
 /* Form registration styles */
 
-.my-form {
-  max-height: 600px; /* Adjust the height as needed */
-  overflow-y: auto;
-}
+
 
 .my-form h2 {
   text-align: center;
@@ -221,6 +235,16 @@
 
 
 
+    body {
+  background-image: url('../img/stock.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+}
+
+
+
 
 
 
@@ -244,9 +268,9 @@
 
     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
-      <li class="active-menu"><a href="index_in.php">In Stock</a></li>
-      <li><a href="low_stock.php">Low stock</a></li>
-      <li><a href="../login.php">Log out</a></li>
+    <li class="active-menu"><a href="index_in.php"><i class="fas fa-box"></i> In Stock</a></li>
+<li><a href="low_stock.php"><i class="fas fa-exclamation-triangle"></i> Low stock</a></li>
+<li><a href="../login.php"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
     </ul>
   </div>
 </nav>
@@ -289,7 +313,8 @@
                 <th>Article</th>
                 <th>Description</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Purchased Price</th>
+                <th>Selling Price</th>
                 <th>Cost</th>
                 <th>Invoice No.</th>
                 <th>Invoice Date</th>
@@ -308,6 +333,7 @@
                     <td><?= $row['article'] ?></td>
                     <td><?= $row['info'] ?></td>
                     <td><?= $row['quantity'] ?></td>
+                    <td><?= $row['p_price'] ?></td>
                     <td><?= $row['price'] ?></td>
                     <td><?= $row['cost'] ?></td>
                     <td><?= $row['invoice_no'] ?></td>
@@ -330,7 +356,9 @@
 <div id="overlay" class="overlay">
   <div id="formContainer" class="form-container">
     <form id="registrationForm" class="my-form" action="process.php" method="post">
-      <h2> Pharmacy Stocks </h2>
+    <img src="../img/phead.jpg" alt="New Header Image" style="max-width: 100%;">
+
+
 
       <div class="form-row">
         <label for="text">Article:</label>
@@ -339,7 +367,7 @@
       </div>
 
       <div class="form-row">
-        <label for="text">Description:</label>
+        <label for="text">Unit:</label>
         <input type="text" name="info" required>
        
       </div>
@@ -350,8 +378,16 @@
      
       </div>
 
+
       <div class="form-row">
-        <label for="text">Price:</label>
+        <label for="text">Purchased Price:</label>
+        <input type="text"  name="p_price" required>
+        
+      </div>
+
+
+      <div class="form-row">
+        <label for="text">Selling Price:</label>
         <input type="text"  name="price" required>
         
       </div>
@@ -386,7 +422,7 @@
       </div>
 
       <button type="submit" name="submit">Stock-In</button>
-      <button type="submit" id="closeFormButton" class="close-button">Close</button>
+      <button type="submit" id="closeFormButton" class="close-button">CANCEL</button>
     </form>
     
   </div>

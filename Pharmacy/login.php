@@ -18,7 +18,7 @@ if (isset($_POST['login'])) {
         } elseif ($row['position'] == "stocker") {
             header('location: stocker/index_in.php');
         } elseif ($row['position'] == "pos") {
-            header('location: pos/index_out.html');
+            header('location: pos/index_out.php');
         } 
         
     } else {
@@ -45,7 +45,7 @@ if (isset($_POST['login'])) {
 <form action="#" method="post">
    <h3 style="text-align: center;">WELCOME!</h3>
     <div class="form-item">
-        <input type="text" name="username" required="required" placeholder="Username" autofocus required></input>
+        <input type="text" name="username" required="required" placeholder="ID" autofocus required></input>
     </div>
     <div class="form-item">
         <input type="password" name="password" required="required" placeholder="Password" required></input>
@@ -54,7 +54,7 @@ if (isset($_POST['login'])) {
         <input type="submit" class="button" title="Log In" name="login" value="login">
     </div>
   <div class="reminder">
-    <p><a>Welcome to Dr. Parcon's Hospital Pharmacy's ?</a> <a href="#">Sign up now</a></p>
+    <p><a>Welcome to Dr. Parcon's Hospital Pharmacy's ?</a> <a href="#">Be part of the Team</a></p>
     <p><a href="#">Forgot password?</a></p>
 
    

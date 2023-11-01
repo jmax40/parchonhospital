@@ -205,7 +205,7 @@
         border-radius: 4px;
         background-color: #f5f5f5;
         color: #333;
-        font-size: 14px;
+        font-size: 20px;
         transition: border-color 0.2s, box-shadow 0.2s;
     }
 
@@ -217,6 +217,78 @@
 
 
 
+
+
+
+
+
+
+    .overlay1 {
+  display: none; /* Add this line to hide the overlay by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+  text-align: center;
+}
+
+.form-container1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px; /* Adjust padding as needed */
+  width: 30%; /* Increase the width as needed */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 576px) {
+
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+    /* Red Button for Delete */
+
+    .submit-button {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 20px 35px; /* Increase the padding for width and height */
+  cursor: pointer;
+  border-radius: 10px; /* Increase the border-radius for rounded corners */
+}
+
+.cancel-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 20px 35px; /* Increase the padding for width and height */
+  cursor: pointer;
+  border-radius: 10px; /* Increase the border-radius for rounded corners */
+}
+
+
+
+body {
+  background-image: url('../img/bg2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+}
 
 
 
@@ -241,9 +313,9 @@
 
     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
-      <li class="active-menu"><a href="index_in.php">In Stock</a></li>
-      <li><a href="low_stock.php">Low stock</a></li>
-      <li><a href="../login.php">Log out</a></li>
+    <li class="active-menu"><a href="index_in.php"><i class="fas fa-box"></i> In Stock</a></li>
+<li><a href="low_stock.php"><i class="fas fa-exclamation-triangle"></i> Low stock</a></li>
+<li><a href="../login.php"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
 
     </ul>
   </div>
@@ -295,7 +367,8 @@
                 <th>Article</th>
                 <th>Description</th>
                 <th>Quantity</th>
-                <th>Price</th>
+                <th>Purchased Price</th>
+                <th>Selling Price</th>
                 <th>Cost</th>
                 <th>Invoice No.</th>
                 <th>Invoice Date</th>
@@ -315,6 +388,7 @@
                 <td><?= $row['article'] ?></td>
                 <td><?= $row['info'] ?></td>
                 <td><?= $row['quantity'] ?></td>
+                <td><?= $row['p_price'] ?></td>
                 <td><?= $row['price'] ?></td>
                 <td><?= $row['cost'] ?></td>
                 <td><?= $row['invoice_no'] ?></td>
@@ -323,7 +397,7 @@
                 <td><?= $row['rop'] ?></td>
                 <td><?= $row['stocker'] ?></td>
                 <td>
-                    <button class="blue-button" onclick="viewHistory(<?= $row['id'] ?>)">
+                    <button class="blue-button" onclick="openForm1(<?= $row['id'] ?>,'<?= $row['price'] ?>')">
                         <i class="fa fa-plus"></i> Add
                     </button>
                 </td>
@@ -410,8 +484,83 @@
 
 
 
+<div class="overlay1" id="overlay1">
+    <div class="form-container1" id="form-container1">
+        <form id="updateForm" action="process.php" method="post">
+            <div class="form-column">
+               
+                <input type="hidden" id="field1" name="id">
+                
+            </div>
+       <div class="form-row">
+          
+           <input type="text" name="quantity"  class="centered-text" placeholder = " Enter Quantity">
+          
+       </div>
+
+      <div class="form-row">
+          
+          <input type="hidden" id="field2" name="price"  class="centered-text">
+         
+      </div>
+      
+            
+            <button type="submit" name="restock" class="submit-button">
+    <i class="fas fa-plus">ADD STOCK</i> 
+</button>
+            <button class="cancel-button"type="button" onclick="closeForm()">
+             <i class="fas fa-trash">     CANCEL     </i></button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
 
 <script>
+
+
+
+
+
+
+
+
+
+
+
+
+function openForm1(id,price) {
+    // Populate the form fields with the data
+    document.getElementById('field1').value = id;
+    document.getElementById('field2').value = price;
+
+    
+
+
+    // Show the overlay
+    document.getElementById('overlay1').style.display = 'block';
+}
+
+
+
+        function closeForm() {
+            // Hide the overlay
+            document.getElementById('overlay1').style.display = 'none';
+        }
+
+
+
+
+
+
+
 
 
 
